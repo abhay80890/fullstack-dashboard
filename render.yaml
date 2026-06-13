@@ -1,0 +1,47 @@
+services:
+  # 1. Express API Backend
+  - type: web
+    name: fullstack-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npx prisma generate
+    startCommand: npx prisma db push && npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fullstack-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: PORT
+        value: 5000
+      - key: CLIENT_URL
+        fromService:
+          name: fullstack-frontend
+          type: web
+          property: url
+
+  # 2. Next.js Frontend Client
+  - type: web
+    name: fullstack-frontend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: FULLSTACK_BACKEND_URL
+        fromService:
+          name: fullstack-backend
+          type: web
+          property: url
+      - key: NEXT_PUBLIC_API_URL
+        value: ${FULLSTACK_BACKEND_URL}/api
+      - key: NEXT_PUBLIC_UPLOADS_URL
+        value: ${FULLSTACK_BACKEND_URL}
+
+databases:
+  # 3. Managed PostgreSQL Database
+  - name: fullstack-db
+    plan: free
