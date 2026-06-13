@@ -13,7 +13,7 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | null>(null);
 
-export function Toaster() {
+export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const showToast = useCallback((message: string, type: Toast['type'] = 'success') => {
@@ -30,6 +30,7 @@ export function Toaster() {
 
   return (
     <ToastContext.Provider value={{ showToast }}>
+      {children}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2" style={{ maxWidth: '360px' }}>
         {toasts.map((t) => {
           const c = colors[t.type];
@@ -48,6 +49,6 @@ export function Toaster() {
 
 export function useToast() {
   const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error('useToast must be used within Toaster');
+  if (!ctx) throw new Error('useToast must be used within ToastProvider');
   return ctx;
 }
