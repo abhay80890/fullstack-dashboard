@@ -4,6 +4,7 @@ import api from '@/lib/api';
 import Modal from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toaster';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const UPLOADS_URL = process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:5000';
 
@@ -45,7 +46,7 @@ export default function ProductsPage() {
 
   const handleSearch = (e: React.FormEvent) => { e.preventDefault(); setPage(1); fetchProducts(1, search); };
 
-  const openCreate = () => { setEditing(null); setForm(emptyForm); setImageFile(null); setPreviewUrl(null); setModalOpen(true); };
+
   const openEdit = (p: Product) => {
     setEditing(p);
     setForm({ name: p.name, description: p.description || '', price: String(p.price), stock: String(p.stock), category: p.category || '' });
@@ -74,9 +75,6 @@ export default function ProductsPage() {
       if (editing) {
         await api.put(`/products/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
         showToast('Product updated!');
-      } else {
-        await api.post('/products', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-        showToast('Product created!');
       }
       setModalOpen(false);
       fetchProducts(page, search);
@@ -110,7 +108,9 @@ export default function ProductsPage() {
               value={search} onChange={e => setSearch(e.target.value)} />
             <button type="submit" className="btn btn-secondary btn-sm">Search</button>
           </form>
-          <button id="create-product-btn" className="btn btn-primary btn-sm" onClick={openCreate}>+ New Product</button>
+          <Link id="create-product-btn" href="/dashboard/products/create" className="btn btn-primary btn-sm">
+            + New Product
+          </Link>
         </div>
       </div>
 
@@ -184,8 +184,8 @@ export default function ProductsPage() {
         </div>
       )}
 
-      {/* Create/Edit Modal */}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Product' : 'New Product'} size="md">
+      {/* Edit Modal */}
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Edit Product" size="md">
         <form onSubmit={handleSave} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
@@ -210,20 +210,25 @@ export default function ProductsPage() {
             </div>
             <div className="col-span-2">
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Description</label>
-              <textarea id="product-description" className="input-base" rows={3} placeholder="Product description…" value={form.description}
-                onChange={e => setForm({ ...form, description: e.target.value })} style={{ resize: 'vertical' }} />
+              <textarea id="product-description" className="input-base" rows={previewUrl ? 2 : 4} placeholder="Product description…" value={form.description}
+                onChange={e => setForm({ ...form, description: e.target.value })} style={{ resize: 'vertical', transition: 'all 0.3s ease' }} />
             </div>
           </div>
 
           {/* Image */}
           <div>
             <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Product Image</label>
-            <div className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors"
+            <div className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors relative group"
               style={{ borderColor: previewUrl ? 'var(--accent)' : 'var(--border)' }} onClick={() => fileRef.current?.click()}>
               {previewUrl ? (
-                <div className="relative w-full h-36">
-                  <Image src={previewUrl} alt="preview" fill className="object-contain rounded-lg" />
-                </div>
+                <>
+                  <div className="relative w-full h-28">
+                    <Image src={previewUrl} alt="preview" fill className="object-contain rounded-lg" />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 rounded-xl">
+                    <span className="text-white font-medium text-sm">Click to change image</span>
+                  </div>
+                </>
               ) : (
                 <div className="py-4">
                   <div className="text-3xl mb-2">📦</div>
@@ -237,7 +242,7 @@ export default function ProductsPage() {
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>Cancel</button>
             <button id="save-product-btn" type="submit" className="btn btn-primary" disabled={saving}>
-              {saving ? 'Saving…' : editing ? 'Update' : 'Create Product'}
+              {saving ? 'Saving…' : 'Update'}
             </button>
           </div>
         </form>

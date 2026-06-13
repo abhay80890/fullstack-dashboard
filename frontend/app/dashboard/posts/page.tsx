@@ -4,6 +4,7 @@ import api from '@/lib/api';
 import Modal from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toaster';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const UPLOADS_URL = process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:5000';
 
@@ -44,7 +45,7 @@ export default function PostsPage() {
 
   const handleSearch = (e: React.FormEvent) => { e.preventDefault(); setPage(1); fetchPosts(1, search); };
 
-  const openCreate = () => { setEditing(null); setForm(emptyForm); setImageFile(null); setPreviewUrl(null); setModalOpen(true); };
+
   const openEdit = (p: Post) => {
     setEditing(p);
     setForm({ title: p.title, content: p.content, published: p.published });
@@ -72,9 +73,6 @@ export default function PostsPage() {
       if (editing) {
         await api.put(`/posts/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
         showToast('Post updated!');
-      } else {
-        await api.post('/posts', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-        showToast('Post created!');
       }
       setModalOpen(false);
       fetchPosts(page, search);
@@ -108,7 +106,9 @@ export default function PostsPage() {
               value={search} onChange={e => setSearch(e.target.value)} />
             <button type="submit" className="btn btn-secondary btn-sm">Search</button>
           </form>
-          <button id="create-post-btn" className="btn btn-primary btn-sm" onClick={openCreate}>+ New Post</button>
+          <Link id="create-post-btn" href="/dashboard/posts/create" className="btn btn-primary btn-sm">
+            + New Post
+          </Link>
         </div>
       </div>
 
@@ -183,8 +183,8 @@ export default function PostsPage() {
         )}
       </div>
 
-      {/* Create/Edit Modal */}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Post' : 'Create New Post'} size="lg">
+      {/* Edit Modal */}
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Edit Post" size="lg">
         <form onSubmit={handleSave} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Title</label>
@@ -193,21 +193,26 @@ export default function PostsPage() {
           </div>
           <div>
             <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Content</label>
-            <textarea id="post-content" className="input-base" rows={5} placeholder="Write your post content…" value={form.content}
-              onChange={e => setForm({ ...form, content: e.target.value })} required style={{ resize: 'vertical' }} />
+            <textarea id="post-content" className="input-base" rows={previewUrl ? 3 : 6} placeholder="Write your post content…" value={form.content}
+              onChange={e => setForm({ ...form, content: e.target.value })} required style={{ resize: 'vertical', transition: 'all 0.3s ease' }} />
           </div>
           {/* Image upload */}
           <div>
             <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Cover Image</label>
             <div
-              className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors"
+              className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors relative group"
               style={{ borderColor: previewUrl ? 'var(--accent)' : 'var(--border)' }}
               onClick={() => fileRef.current?.click()}
             >
               {previewUrl ? (
-                <div className="relative w-full h-40">
-                  <Image src={previewUrl} alt="preview" fill className="object-cover rounded-lg" />
-                </div>
+                <>
+                  <div className="relative w-full h-32">
+                    <Image src={previewUrl} alt="preview" fill className="object-cover rounded-lg" />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 rounded-xl">
+                    <span className="text-white font-medium text-sm">Click to change image</span>
+                  </div>
+                </>
               ) : (
                 <div className="py-6">
                   <div className="text-3xl mb-2">🖼️</div>
@@ -229,7 +234,7 @@ export default function PostsPage() {
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>Cancel</button>
             <button id="save-post-btn" type="submit" className="btn btn-primary" disabled={saving}>
-              {saving ? 'Saving…' : editing ? 'Update Post' : 'Create Post'}
+              {saving ? 'Saving…' : 'Update Post'}
             </button>
           </div>
         </form>
