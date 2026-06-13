@@ -7,22 +7,16 @@ const getDashboardStats = async (req, res) => {
       totalPosts,
       totalProducts,
       publishedPosts,
-      recentUsers,
       recentPosts,
     ] = await Promise.all([
       prisma.user.count(),
       prisma.post.count(),
       prisma.product.count(),
       prisma.post.count({ where: { published: true } }),
-      prisma.user.findMany({
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-        select: { id: true, name: true, email: true, avatar: true, role: true, createdAt: true },
-      }),
       prisma.post.findMany({
         take: 5,
         orderBy: { createdAt: 'desc' },
-        include: { author: { select: { name: true, avatar: true } } },
+        include: { author: { select: { name: true, nickname: true, avatar: true } } },
       }),
     ]);
 
@@ -58,7 +52,6 @@ const getDashboardStats = async (req, res) => {
       success: true,
       data: {
         stats: { totalUsers, totalPosts, totalProducts, publishedPosts },
-        recentUsers,
         recentPosts,
         monthlyUsers,
       },
@@ -69,4 +62,23 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-module.exports = { getDashboardStats };
+const getAdminStats = async (req, res) => {
+  try {
+    const [totalUsers, totalPosts, totalProducts, recentUsers] = await Promise.all([
+      prisma.user.count(),
+      prisma.post.count(),
+      prisma.product.count(),
+      prisma.user.findMany({
+        take: 10,
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, name: true, nickname: true, email: true, role: true, avatar: true, createdAt: true },
+      }),
+    ]);
+    res.json({ success: true, data: { stats: { totalUsers, totalPosts, totalProducts }, recentUsers } });
+  } catch (error) {
+    console.error('getAdminStats error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+module.exports = { getDashboardStats, getAdminStats };

@@ -1,9 +1,12 @@
 const express = require('express');
-const { getDashboardStats } = require('../controllers/dashboardController');
-const { authenticateToken } = require('../middleware/auth');
+const { getDashboardStats, getAdminStats } = require('../controllers/dashboardController');
+const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/stats', authenticateToken, getDashboardStats);
+router.use(authenticateToken);
+
+router.get('/stats', getDashboardStats);
+router.get('/admin/stats', requireAdmin, getAdminStats);
 
 module.exports = router;

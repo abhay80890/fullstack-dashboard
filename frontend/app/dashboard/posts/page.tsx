@@ -10,7 +10,7 @@ const UPLOADS_URL = process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:500
 
 interface Post {
   id: string; title: string; content: string; imageUrl?: string;
-  published: boolean; createdAt: string; author: { name: string; avatar?: string };
+  published: boolean; createdAt: string; author: { name: string; nickname?: string; avatar: string };
 }
 
 const emptyForm = { title: '', content: '', published: false };
@@ -150,7 +150,7 @@ export default function PostsPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm" style={{ color: 'var(--text-secondary)' }}>{p.author.name}</td>
+                    <td className="px-4 py-3 text-sm" style={{ color: 'var(--text-secondary)' }}>{p.author.nickname || p.author.name}</td>
                     <td className="px-4 py-3">
                       <span className={`badge ${p.published ? 'badge-green' : 'badge-orange'}`}>{p.published ? 'Published' : 'Draft'}</span>
                     </td>

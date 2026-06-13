@@ -15,6 +15,7 @@ const getPosts = async (req, res) => {
     const where = {
       ...(search && { OR: [{ title: { contains: search, mode: 'insensitive' } }, { content: { contains: search, mode: 'insensitive' } }] }),
       ...(published !== undefined && { published: published === 'true' }),
+      ...(req.user.role !== 'ADMIN' && { authorId: req.user.id }),
     };
 
     const [posts, total] = await Promise.all([
@@ -22,7 +23,7 @@ const getPosts = async (req, res) => {
         where,
         skip,
         take: limit,
-        include: { author: { select: { id: true, name: true, avatar: true } } },
+        include: { author: { select: { id: true, name: true, nickname: true, avatar: true } } },
         orderBy: { createdAt: 'desc' },
       }),
       prisma.post.count({ where }),
@@ -44,7 +45,7 @@ const getPost = async (req, res) => {
   try {
     const post = await prisma.post.findUnique({
       where: { id: req.params.id },
-      include: { author: { select: { id: true, name: true, avatar: true } } },
+      include: { author: { select: { id: true, name: true, nickname: true, avatar: true } } },
     });
     if (!post) return res.status(404).json({ success: false, message: 'Post not found' });
     res.json({ success: true, data: post });
@@ -72,7 +73,7 @@ const createPost = async (req, res) => {
         imageUrl,
         authorId: req.user.id,
       },
-      include: { author: { select: { id: true, name: true, avatar: true } } },
+      include: { author: { select: { id: true, name: true, nickname: true, avatar: true } } },
     });
 
     res.status(201).json({ success: true, message: 'Post created successfully', data: post });
@@ -111,7 +112,7 @@ const updatePost = async (req, res) => {
         ...(published !== undefined && { published: published === 'true' || published === true }),
         imageUrl,
       },
-      include: { author: { select: { id: true, name: true, avatar: true } } },
+      include: { author: { select: { id: true, name: true, nickname: true, avatar: true } } },
     });
 
     res.json({ success: true, message: 'Post updated successfully', data: post });

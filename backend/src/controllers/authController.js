@@ -12,10 +12,10 @@ const generateRefreshToken = (userId) =>
 // ─── Register ────────────────────────────────────────────────────────────────
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, nickname, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ success: false, message: 'Name, email and password are required' });
+    if (!name || !nickname || !email || !password) {
+      return res.status(400).json({ success: false, message: 'Name, nickname, email and password are required' });
     }
 
     if (password.length < 6) {
@@ -26,12 +26,16 @@ const register = async (req, res) => {
     if (existing) {
       return res.status(409).json({ success: false, message: 'Email already registered' });
     }
+    const existingNickname = await prisma.user.findUnique({ where: { nickname } });
+    if (existingNickname) {
+      return res.status(409).json({ success: false, message: 'Nickname already taken' });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
-      data: { name, email, password: hashedPassword },
-      select: { id: true, name: true, email: true, role: true, avatar: true, createdAt: true },
+      data: { name, nickname, email, password: hashedPassword },
+      select: { id: true, name: true, nickname: true, email: true, role: true, avatar: true, createdAt: true },
     });
 
     const accessToken = generateAccessToken(user.id);

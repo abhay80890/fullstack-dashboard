@@ -15,6 +15,7 @@ const getProducts = async (req, res) => {
     const where = {
       ...(search && { OR: [{ name: { contains: search, mode: 'insensitive' } }, { description: { contains: search, mode: 'insensitive' } }] }),
       ...(category && { category: { contains: category, mode: 'insensitive' } }),
+      ...(req.user.role !== 'ADMIN' && { createdById: req.user.id }),
     };
 
     const [products, total] = await Promise.all([
@@ -22,7 +23,7 @@ const getProducts = async (req, res) => {
         where,
         skip,
         take: limit,
-        include: { createdBy: { select: { id: true, name: true } } },
+        include: { createdBy: { select: { id: true, name: true, nickname: true } } },
         orderBy: { createdAt: 'desc' },
       }),
       prisma.product.count({ where }),
@@ -44,7 +45,7 @@ const getProduct = async (req, res) => {
   try {
     const product = await prisma.product.findUnique({
       where: { id: req.params.id },
-      include: { createdBy: { select: { id: true, name: true } } },
+      include: { createdBy: { select: { id: true, name: true, nickname: true } } },
     });
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
     res.json({ success: true, data: product });
@@ -75,7 +76,7 @@ const createProduct = async (req, res) => {
         imageUrl,
         createdById: req.user.id,
       },
-      include: { createdBy: { select: { id: true, name: true } } },
+      include: { createdBy: { select: { id: true, name: true, nickname: true } } },
     });
 
     res.status(201).json({ success: true, message: 'Product created successfully', data: product });
@@ -115,7 +116,7 @@ const updateProduct = async (req, res) => {
         ...(category !== undefined && { category }),
         imageUrl,
       },
-      include: { createdBy: { select: { id: true, name: true } } },
+      include: { createdBy: { select: { id: true, name: true, nickname: true } } },
     });
 
     res.json({ success: true, message: 'Product updated successfully', data: product });

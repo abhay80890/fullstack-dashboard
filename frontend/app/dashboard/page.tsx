@@ -12,9 +12,8 @@ interface Stats {
   totalProducts: number;
   publishedPosts: number;
 }
-interface RecentUser { id: string; name: string; email: string; avatar?: string; role: string; createdAt: string; }
-interface RecentPost { id: string; title: string; published: boolean; imageUrl?: string; createdAt: string; author: { name: string } }
-interface DashData { stats: Stats; recentUsers: RecentUser[]; recentPosts: RecentPost[]; }
+interface RecentPost { id: string; title: string; published: boolean; imageUrl?: string; createdAt: string; author: { name: string; nickname?: string } }
+interface DashData { stats: Stats; recentPosts: RecentPost[]; }
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashData | null>(null);
@@ -36,7 +35,7 @@ export default function DashboardPage() {
     </div>
   );
 
-  const { stats, recentUsers, recentPosts } = data;
+  const { stats, recentPosts } = data;
 
   const statCards = [
     { title: 'Total Users', value: stats.totalUsers, icon: <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>, gradient: 'linear-gradient(135deg,#6c63ff,#a855f7)' },
@@ -54,31 +53,7 @@ export default function DashboardPage() {
 
       {/* Bottom grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Users */}
-        <div className="card p-6">
-          <h2 className="text-base font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Recent Users</h2>
-          <div className="space-y-3">
-            {recentUsers.length === 0 && <p className="text-sm" style={{ color: 'var(--text-muted)' }}>No users yet.</p>}
-            {recentUsers.map((u) => (
-              <div key={u.id} className="flex items-center gap-3 p-3 rounded-xl transition-colors hover:bg-white/5">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ background: 'var(--accent-light)' }}>
-                  {u.avatar ? (
-                    <Image src={`${UPLOADS_URL}${u.avatar}`} alt={u.name} fill className="object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-sm font-bold" style={{ color: 'var(--accent)' }}>
-                      {u.name?.[0]?.toUpperCase()}
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate" style={{ color: 'var(--text-primary)' }}>{u.name}</p>
-                  <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>{u.email}</p>
-                </div>
-                <span className={`badge ${u.role === 'ADMIN' ? 'badge-purple' : 'badge-blue'}`}>{u.role}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+
 
         {/* Recent Posts */}
         <div className="card p-6">
@@ -100,7 +75,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate" style={{ color: 'var(--text-primary)' }}>{p.title}</p>
-                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>by {p.author.name}</p>
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>by {p.author.nickname || p.author.name}</p>
                 </div>
                 <span className={`badge ${p.published ? 'badge-green' : 'badge-orange'}`}>
                   {p.published ? 'Live' : 'Draft'}

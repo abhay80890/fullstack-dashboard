@@ -7,7 +7,7 @@ import { useAuth } from '@/lib/auth';
 export default function RegisterPage() {
   const { register } = useAuth();
   const router = useRouter();
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
+  const [form, setForm] = useState({ name: '', nickname: '', email: '', password: '', confirm: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,7 @@ export default function RegisterPage() {
     if (form.password.length < 6) { setError('Password must be at least 6 characters'); return; }
     setLoading(true);
     try {
-      await register(form.name, form.email, form.password);
+      await register(form.name, form.nickname, form.email, form.password);
       router.push('/dashboard');
     } catch (err: unknown) {
       const message = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Registration failed.';
@@ -53,6 +53,11 @@ export default function RegisterPage() {
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Full Name</label>
               <input id="name" type="text" className="input-base" placeholder="John Doe" value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Nickname (Channel Handle)</label>
+              <input id="nickname" type="text" className="input-base" placeholder="@nickname" value={form.nickname}
+                onChange={(e) => setForm({ ...form, nickname: e.target.value })} required />
             </div>
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Email</label>

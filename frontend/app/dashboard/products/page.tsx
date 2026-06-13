@@ -11,7 +11,7 @@ const UPLOADS_URL = process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:500
 interface Product {
   id: string; name: string; description?: string; price: number;
   stock: number; category?: string; imageUrl?: string; createdAt: string;
-  createdBy: { name: string };
+  createdBy: { name: string; nickname?: string };
 }
 
 const emptyForm = { name: '', description: '', price: '', stock: '', category: '' };
@@ -149,6 +149,7 @@ export default function ProductsPage() {
                 {p.description && (
                   <p className="text-xs mb-3 line-clamp-2" style={{ color: 'var(--text-muted)' }}>{p.description}</p>
                 )}
+                <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>By {p.createdBy?.nickname || p.createdBy?.name || 'Unknown'}</p>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xl font-bold gradient-text">${p.price.toFixed(2)}</span>
                   <span className="text-xs px-2 py-1 rounded-lg" style={{

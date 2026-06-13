@@ -5,6 +5,7 @@ import api from './api';
 export interface User {
   id: string;
   name: string;
+  nickname?: string;
   email: string;
   role: 'USER' | 'ADMIN';
   avatar?: string;
@@ -15,7 +16,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (name: string, nickname: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   updateUser: (u: Partial<User>) => void;
 }
@@ -46,8 +47,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(user);
   };
 
-  const register = async (name: string, email: string, password: string) => {
-    const { data } = await api.post('/auth/register', { name, email, password });
+  const register = async (name: string, nickname: string, email: string, password: string) => {
+    const { data } = await api.post('/auth/register', { name, nickname, email, password });
     const { user, accessToken, refreshToken } = data.data;
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
