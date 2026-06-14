@@ -6,6 +6,7 @@ import { useToast } from '@/components/ui/Toaster';
 import { useAuth } from '@/lib/auth';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const UPLOADS_URL = process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:5000';
 
@@ -19,6 +20,7 @@ const emptyForm = { name: '', description: '', price: '', stock: '', category: '
 
 export default function ProductsPage() {
   const { user } = useAuth();
+  const router = useRouter();
   const { showToast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);

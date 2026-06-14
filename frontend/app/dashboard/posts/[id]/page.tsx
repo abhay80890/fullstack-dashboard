@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -11,17 +11,18 @@ interface Post {
   published: boolean; createdAt: string; author: { name: string; nickname?: string; avatar: string };
 }
 
-export default function ViewPostPage({ params }: { params: { id: string } }) {
+export default function ViewPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(`/posts/${params.id}`)
+    api.get(`/posts/${resolvedParams.id}`)
       .then(({ data }) => setPost(data.data))
       .catch(() => router.push('/dashboard/posts'))
       .finally(() => setLoading(false));
-  }, [params.id, router]);
+  }, [resolvedParams.id, router]);
 
   if (loading) {
     return (

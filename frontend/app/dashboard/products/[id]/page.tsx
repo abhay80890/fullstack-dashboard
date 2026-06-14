@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -12,17 +12,18 @@ interface Product {
   createdAt: string; createdBy: { name: string; nickname?: string };
 }
 
-export default function ViewProductPage({ params }: { params: { id: string } }) {
+export default function ViewProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(`/products/${params.id}`)
+    api.get(`/products/${resolvedParams.id}`)
       .then(({ data }) => setProduct(data.data))
       .catch(() => router.push('/dashboard/products'))
       .finally(() => setLoading(false));
-  }, [params.id, router]);
+  }, [resolvedParams.id, router]);
 
   if (loading) {
     return (
