@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import api from '@/lib/api';
 import Modal from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toaster';
+import { useAuth } from '@/lib/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -17,6 +18,7 @@ interface Product {
 const emptyForm = { name: '', description: '', price: '', stock: '', category: '' };
 
 export default function ProductsPage() {
+  const { user } = useAuth();
   const { showToast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -159,14 +161,16 @@ export default function ProductsPage() {
                     {p.stock > 0 ? `${p.stock} in stock` : 'Out of stock'}
                   </span>
                 </div>
-                <div className="flex gap-2">
-                  <button className="btn btn-secondary btn-sm flex-1" onClick={() => openEdit(p)}>Edit</button>
-                  <button className="btn btn-danger btn-sm" onClick={() => setDeleteId(p.id)}>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </div>
+                {(user?.role === 'ADMIN' || user?.nickname === p.createdBy?.nickname || user?.name === p.createdBy?.name) && (
+                  <div className="flex gap-2">
+                    <button className="btn btn-secondary btn-sm flex-1" onClick={() => openEdit(p)}>Edit</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => setDeleteId(p.id)}>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

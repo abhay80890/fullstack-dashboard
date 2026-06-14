@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import api from '@/lib/api';
 import Modal from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toaster';
+import { useAuth } from '@/lib/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,6 +17,7 @@ interface Post {
 const emptyForm = { title: '', content: '', published: false };
 
 export default function PostsPage() {
+  const { user } = useAuth();
   const { showToast } = useToast();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -158,10 +160,12 @@ export default function PostsPage() {
                       {new Date(p.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <button className="btn btn-secondary btn-sm" onClick={() => openEdit(p)}>Edit</button>
-                        <button className="btn btn-danger btn-sm" onClick={() => setDeleteId(p.id)}>Delete</button>
-                      </div>
+                      {(user?.role === 'ADMIN' || user?.nickname === p.author.nickname || user?.name === p.author.name) && (
+                        <div className="flex items-center gap-2">
+                          <button className="btn btn-secondary btn-sm" onClick={() => openEdit(p)}>Edit</button>
+                          <button className="btn btn-danger btn-sm" onClick={() => setDeleteId(p.id)}>Delete</button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}

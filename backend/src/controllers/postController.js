@@ -15,7 +15,6 @@ const getPosts = async (req, res) => {
     const where = {
       ...(search && { OR: [{ title: { contains: search, mode: 'insensitive' } }, { content: { contains: search, mode: 'insensitive' } }] }),
       ...(published !== undefined && { published: published === 'true' }),
-      ...(req.user.role !== 'ADMIN' && { authorId: req.user.id }),
     };
 
     const [posts, total] = await Promise.all([

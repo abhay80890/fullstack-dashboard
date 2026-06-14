@@ -15,7 +15,6 @@ const getProducts = async (req, res) => {
     const where = {
       ...(search && { OR: [{ name: { contains: search, mode: 'insensitive' } }, { description: { contains: search, mode: 'insensitive' } }] }),
       ...(category && { category: { contains: category, mode: 'insensitive' } }),
-      ...(req.user.role !== 'ADMIN' && { createdById: req.user.id }),
     };
 
     const [products, total] = await Promise.all([
