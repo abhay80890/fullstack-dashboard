@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Zap, Shield, BarChart3 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Zap, Shield, BarChart3, LayoutDashboard, FileText, ShoppingBag } from 'lucide-react';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -87,13 +87,22 @@ export default function LoginPage() {
           {/* Mockup Body */}
           <div className="flex-1 p-6 flex gap-6">
             {/* Sidebar mock */}
-            <div className="w-48 space-y-3">
-              <div className="h-8 rounded-lg bg-white/5 w-full" />
-              <div className="h-8 rounded-lg bg-white/5 w-5/6" />
-              <div className="h-8 rounded-lg bg-white/5 w-4/6" />
-              <div className="h-8 rounded-lg bg-violet-500/20 border border-violet-500/30 w-full flex items-center px-3 gap-2">
+            <div className="w-48 flex flex-col gap-2">
+              <div className="h-8 rounded-lg bg-white/5 w-full flex items-center px-3 gap-3">
+                 <LayoutDashboard className="w-4 h-4 text-white/40" />
+                 <span className="text-xs font-medium text-white/50">Overview</span>
+              </div>
+              <div className="h-8 rounded-lg bg-white/5 w-full flex items-center px-3 gap-3">
+                 <FileText className="w-4 h-4 text-white/40" />
+                 <span className="text-xs font-medium text-white/50">Posts</span>
+              </div>
+              <div className="h-8 rounded-lg bg-white/5 w-full flex items-center px-3 gap-3">
+                 <ShoppingBag className="w-4 h-4 text-white/40" />
+                 <span className="text-xs font-medium text-white/50">Products</span>
+              </div>
+              <div className="h-8 rounded-lg bg-violet-500/20 border border-violet-500/30 w-full flex items-center px-3 gap-3 mt-4">
                  <BarChart3 className="w-4 h-4 text-violet-400" />
-                 <div className="h-2 rounded bg-violet-400/50 w-16" />
+                 <span className="text-xs font-medium text-violet-400">Analytics</span>
               </div>
             </div>
             {/* Main content mock */}
