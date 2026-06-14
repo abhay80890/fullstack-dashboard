@@ -186,6 +186,7 @@ export default function PostsPage() {
               </button>
             ))}
           </div>
+        )}
       </div>
 
       {/* Edit Modal */}
