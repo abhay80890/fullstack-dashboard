@@ -182,8 +182,8 @@ export default function RegisterPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/70" htmlFor="name">Full Name</label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40 group-focus-within:text-violet-400 transition-colors">
+                    <div className="flex items-center h-12 w-full rounded-xl bg-white/5 border border-white/10 overflow-hidden focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500 transition-all group">
+                      <div className="pl-4 pr-3 flex items-center justify-center text-white/40 group-focus-within:text-violet-400 transition-colors">
                         <User className="w-5 h-5" />
                       </div>
                       <input
@@ -191,7 +191,7 @@ export default function RegisterPage() {
                         type="text"
                         required
                         placeholder="John Doe"
-                        className="w-full h-12 pl-11 pr-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all"
+                        className="flex-1 h-full bg-transparent text-white placeholder-white/30 focus:outline-none pr-4 w-full"
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
                       />
@@ -200,8 +200,8 @@ export default function RegisterPage() {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/70" htmlFor="nickname">Handle</label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40 group-focus-within:text-violet-400 transition-colors">
+                    <div className="flex items-center h-12 w-full rounded-xl bg-white/5 border border-white/10 overflow-hidden focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500 transition-all group">
+                      <div className="pl-4 pr-3 flex items-center justify-center text-white/40 group-focus-within:text-violet-400 transition-colors">
                         <AtSign className="w-5 h-5" />
                       </div>
                       <input
@@ -209,7 +209,7 @@ export default function RegisterPage() {
                         type="text"
                         required
                         placeholder="nickname"
-                        className="w-full h-12 pl-11 pr-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all"
+                        className="flex-1 h-full bg-transparent text-white placeholder-white/30 focus:outline-none pr-4 w-full"
                         value={form.nickname}
                         onChange={(e) => setForm({ ...form, nickname: e.target.value })}
                       />
@@ -219,8 +219,8 @@ export default function RegisterPage() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/70" htmlFor="email">Email Address</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40 group-focus-within:text-violet-400 transition-colors">
+                  <div className="flex items-center h-12 w-full rounded-xl bg-white/5 border border-white/10 overflow-hidden focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500 transition-all group">
+                    <div className="pl-4 pr-3 flex items-center justify-center text-white/40 group-focus-within:text-violet-400 transition-colors">
                       <Mail className="w-5 h-5" />
                     </div>
                     <input
@@ -228,7 +228,7 @@ export default function RegisterPage() {
                       type="email"
                       required
                       placeholder="you@company.com"
-                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all"
+                      className="flex-1 h-full bg-transparent text-white placeholder-white/30 focus:outline-none pr-4 w-full"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                     />
@@ -237,8 +237,8 @@ export default function RegisterPage() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/70" htmlFor="password">Password</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40 group-focus-within:text-violet-400 transition-colors">
+                  <div className="flex items-center h-12 w-full rounded-xl bg-white/5 border border-white/10 overflow-hidden focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500 transition-all group">
+                    <div className="pl-4 pr-3 flex items-center justify-center text-white/40 group-focus-within:text-violet-400 transition-colors">
                       <Lock className="w-5 h-5" />
                     </div>
                     <input
@@ -246,14 +246,14 @@ export default function RegisterPage() {
                       type={showPassword ? "text" : "password"}
                       required
                       placeholder="••••••••"
-                      className="w-full h-12 pl-11 pr-12 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all"
+                      className="flex-1 h-full bg-transparent text-white placeholder-white/30 focus:outline-none w-full"
                       value={form.password}
                       onChange={(e) => setForm({ ...form, password: e.target.value })}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/40 hover:text-white transition-colors focus:outline-none"
+                      className="pr-4 pl-2 flex items-center justify-center text-white/40 hover:text-white transition-colors focus:outline-none h-full"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -280,8 +280,8 @@ export default function RegisterPage() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/70" htmlFor="confirm-password">Confirm Password</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40 group-focus-within:text-violet-400 transition-colors">
+                  <div className="flex items-center h-12 w-full rounded-xl bg-white/5 border border-white/10 overflow-hidden focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500 transition-all group">
+                    <div className="pl-4 pr-3 flex items-center justify-center text-white/40 group-focus-within:text-violet-400 transition-colors">
                       <Lock className="w-5 h-5" />
                     </div>
                     <input
@@ -289,14 +289,14 @@ export default function RegisterPage() {
                       type={showConfirm ? "text" : "password"}
                       required
                       placeholder="••••••••"
-                      className="w-full h-12 pl-11 pr-12 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all"
+                      className="flex-1 h-full bg-transparent text-white placeholder-white/30 focus:outline-none w-full"
                       value={form.confirm}
                       onChange={(e) => setForm({ ...form, confirm: e.target.value })}
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirm(!showConfirm)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/40 hover:text-white transition-colors focus:outline-none"
+                      className="pr-4 pl-2 flex items-center justify-center text-white/40 hover:text-white transition-colors focus:outline-none h-full"
                     >
                       {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
