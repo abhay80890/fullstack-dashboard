@@ -195,7 +195,7 @@ export default function ProductsPage() {
         {viewing && (
           <div className="space-y-6">
             {viewing.imageUrl && (
-              <div className="relative w-full h-64 rounded-xl overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
+              <div className="relative w-full h-96 rounded-xl overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
                 <Image src={`${UPLOADS_URL}${viewing.imageUrl}`} alt={viewing.name} fill className="object-contain" />
               </div>
             )}
