@@ -14,7 +14,10 @@ export default function Topbar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const router = useRouter();
-  const info = pageTitles[pathname] || { title: 'Dashboard', subtitle: '' };
+  const info = pageTitles[pathname] || 
+    (pathname.startsWith('/dashboard/posts/') ? { title: 'View Post', subtitle: 'Reading full article.' } :
+    pathname.startsWith('/dashboard/products/') ? { title: 'View Product', subtitle: 'Product details.' } :
+    { title: 'Dashboard', subtitle: '' });
 
   const handleLogout = async () => {
     await logout();

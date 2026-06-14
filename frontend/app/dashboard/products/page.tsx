@@ -24,7 +24,6 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-  const [viewing, setViewing] = useState<Product | null>(null);
   const [editing, setEditing] = useState<Product | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -131,7 +130,7 @@ export default function ProductsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((p) => (
-            <div key={p.id} className="card overflow-hidden group cursor-pointer hover:border-accent transition-colors" onClick={() => setViewing(p)}>
+            <div key={p.id} className="card overflow-hidden group cursor-pointer hover:border-accent transition-colors" onClick={() => router.push(`/dashboard/products/${p.id}`)}>
               <div className="relative h-44 overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
                 {p.imageUrl ? (
                   <Image src={`${UPLOADS_URL}${p.imageUrl}`} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -189,41 +188,6 @@ export default function ProductsPage() {
           ))}
         </div>
       )}
-
-      {/* View Modal */}
-      <Modal open={!!viewing} onClose={() => setViewing(null)} title={viewing?.name || 'View Product'} size="lg">
-        {viewing && (
-          <div className="space-y-6">
-            {viewing.imageUrl && (
-              <div className="relative w-full h-96 rounded-xl overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
-                <Image src={`${UPLOADS_URL}${viewing.imageUrl}`} alt={viewing.name} fill className="object-contain" />
-              </div>
-            )}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{viewing.name}</h3>
-                <span className="text-2xl font-bold gradient-text">${viewing.price.toFixed(2)}</span>
-              </div>
-              <div className="flex items-center gap-4 mb-4">
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>By {viewing.createdBy?.nickname || viewing.createdBy?.name || 'Unknown'}</p>
-                {viewing.category && <span className="badge badge-blue">{viewing.category}</span>}
-                <span className="text-xs px-2 py-1 rounded-lg" style={{
-                  background: viewing.stock > 0 ? 'rgba(0,212,170,0.1)' : 'rgba(255,77,109,0.1)',
-                  color: viewing.stock > 0 ? 'var(--accent-green)' : 'var(--accent-red)',
-                }}>
-                  {viewing.stock > 0 ? `${viewing.stock} in stock` : 'Out of stock'}
-                </span>
-              </div>
-              <div className="prose prose-invert max-w-none">
-                <p style={{ color: 'var(--text-secondary)', whiteSpace: 'pre-wrap' }}>{viewing.description || 'No description provided.'}</p>
-              </div>
-            </div>
-            <div className="flex justify-end pt-4" style={{ borderTop: '1px solid var(--border)' }}>
-              <button className="btn btn-secondary" onClick={() => setViewing(null)}>Close</button>
-            </div>
-          </div>
-        )}
-      </Modal>
 
       {/* Edit Modal */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Edit Product" size="md">

@@ -6,6 +6,7 @@ import { useToast } from '@/components/ui/Toaster';
 import { useAuth } from '@/lib/auth';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const UPLOADS_URL = process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:5000';
 
@@ -18,12 +19,12 @@ const emptyForm = { title: '', content: '', published: false };
 
 export default function PostsPage() {
   const { user } = useAuth();
+  const router = useRouter();
   const { showToast } = useToast();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-  const [viewing, setViewing] = useState<Post | null>(null);
   const [editing, setEditing] = useState<Post | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -137,7 +138,7 @@ export default function PostsPage() {
               </thead>
               <tbody>
                 {posts.map((p) => (
-                  <tr key={p.id} className="transition-colors hover:bg-white/5 cursor-pointer" style={{ borderBottom: '1px solid var(--border)' }} onClick={() => setViewing(p)}>
+                  <tr key={p.id} className="transition-colors hover:bg-white/5 cursor-pointer" style={{ borderBottom: '1px solid var(--border)' }} onClick={() => router.push(`/dashboard/posts/${p.id}`)}>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0" style={{ background: 'var(--bg-secondary)' }}>
@@ -185,43 +186,7 @@ export default function PostsPage() {
               </button>
             ))}
           </div>
-        )}
       </div>
-
-      {/* View Modal */}
-      <Modal open={!!viewing} onClose={() => setViewing(null)} title={viewing?.title || 'View Post'} size="lg">
-        {viewing && (
-          <div className="space-y-6">
-            {viewing.imageUrl && (
-              <div className="relative w-full h-96 rounded-xl overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
-                <Image src={`${UPLOADS_URL}${viewing.imageUrl}`} alt={viewing.title} fill className="object-contain" />
-              </div>
-            )}
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-accent flex items-center justify-center text-white font-bold text-lg">
-                    {viewing.author.nickname?.[0]?.toUpperCase() || viewing.author.name?.[0]?.toUpperCase()}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{viewing.author.nickname || viewing.author.name}</p>
-                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{new Date(viewing.createdAt).toLocaleDateString()}</p>
-                  </div>
-                </div>
-                <span className={`badge ${viewing.published ? 'badge-green' : 'badge-orange'}`}>
-                  {viewing.published ? 'Published' : 'Draft'}
-                </span>
-              </div>
-              <div className="prose prose-invert max-w-none">
-                <p style={{ color: 'var(--text-secondary)', whiteSpace: 'pre-wrap' }}>{viewing.content}</p>
-              </div>
-            </div>
-            <div className="flex justify-end pt-4" style={{ borderTop: '1px solid var(--border)' }}>
-              <button className="btn btn-secondary" onClick={() => setViewing(null)}>Close</button>
-            </div>
-          </div>
-        )}
-      </Modal>
 
       {/* Edit Modal */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Edit Post" size="lg">
