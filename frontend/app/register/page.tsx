@@ -38,7 +38,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen w-full flex bg-[#050816] overflow-hidden selection:bg-purple-500/30">
       {/* LEFT PANEL - PRODUCT SHOWCASE */}
-      <div className="hidden lg:flex w-1/2 relative flex-col justify-between p-12 overflow-hidden border-r border-white/5">
+      <div className="hidden lg:flex lg:w-[55%] xl:w-[60%] relative flex-col justify-between p-12 lg:p-16 xl:p-24 overflow-hidden border-r border-white/5">
         {/* Animated Background Effects */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-violet-600/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
@@ -137,8 +137,8 @@ export default function RegisterPage() {
       </div>
 
       {/* RIGHT PANEL - REGISTER */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 relative overflow-y-auto custom-scrollbar">
-        <div className="w-full max-w-md relative z-10 py-12">
+      <div className="w-full lg:w-[45%] xl:w-[40%] flex items-center justify-center p-6 sm:p-12 lg:p-16 xl:p-24 relative overflow-y-auto custom-scrollbar">
+        <div className="w-full max-w-[440px] relative z-10 py-12">
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -155,12 +155,12 @@ export default function RegisterPage() {
 
             <div className="mb-10 text-center lg:text-left">
               <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">Create an account</h2>
-              <p className="text-white/50">Enter your details below to get started.</p>
+              <p className="text-white/50 text-base">Enter your details below to get started.</p>
             </div>
 
-            <div className="space-y-6">
+            <div>
               {/* Social Login */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 mb-8">
                 <button type="button" className="flex items-center justify-center gap-2 h-11 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all font-medium text-sm group">
                   <svg className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                   GitHub
@@ -171,14 +171,14 @@ export default function RegisterPage() {
                 </button>
               </div>
 
-              <div className="relative flex items-center">
+              <div className="relative flex items-center mb-8">
                 <div className="flex-grow border-t border-white/10"></div>
                 <span className="flex-shrink-0 mx-4 text-white/30 text-xs uppercase tracking-wider">or sign up with email</span>
                 <div className="flex-grow border-t border-white/10"></div>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/70" htmlFor="name">Full Name</label>
