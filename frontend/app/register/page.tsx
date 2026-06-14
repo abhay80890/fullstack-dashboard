@@ -81,11 +81,14 @@ export default function RegisterPage() {
           className="relative z-10 mt-12 w-[120%] aspect-[16/10] rounded-tl-2xl rounded-tr-sm border border-white/10 bg-white/[0.02] backdrop-blur-3xl shadow-2xl overflow-hidden flex flex-col"
           style={{ transformPerspective: 1000 }}
         >
-          {/* Mockup Header */}
-          <div className="h-12 border-b border-white/5 flex items-center px-4 gap-2 bg-white/[0.01]">
-            <div className="w-3 h-3 rounded-full bg-white/10" />
-            <div className="w-3 h-3 rounded-full bg-white/10" />
-            <div className="w-3 h-3 rounded-full bg-white/10" />
+          {/* Mockup Header (SaaS Topbar) */}
+          <div className="h-12 border-b border-white/5 flex items-center justify-between px-6 bg-white/[0.01]">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-md bg-violet-500/50" />
+              <div className="w-16 h-3 rounded-md bg-white/10" />
+            </div>
+            <div className="w-32 h-5 rounded-md bg-white/5" />
+            <div className="w-6 h-6 rounded-full bg-white/10" />
           </div>
           {/* Mockup Body */}
           <div className="flex-1 p-6 flex gap-6">
