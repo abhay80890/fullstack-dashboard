@@ -72,16 +72,21 @@ export default function ProfilePage() {
       <div className="card p-6">
         <h2 className="text-base font-semibold mb-5" style={{ color: 'var(--text-primary)' }}>Profile Picture</h2>
         <div className="flex items-center gap-6">
-          <div className="relative">
+          <div className="relative cursor-pointer group" onClick={() => !avatarUploading && fileRef.current?.click()}>
             <div className="w-24 h-24 rounded-full overflow-hidden" style={{ background: 'var(--accent-light)', border: '3px solid var(--border)' }}>
               {avatarSrc ? (
-                <Image src={avatarSrc} alt={user?.name || ''} width={96} height={96} className="w-full h-full object-cover" />
+                <Image src={avatarSrc} alt={user?.name || ''} width={96} height={96} className="w-full h-full object-cover group-hover:opacity-50 transition-opacity" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-3xl font-bold" style={{ color: 'var(--accent)' }}>
+                <div className="w-full h-full flex items-center justify-center text-3xl font-bold group-hover:opacity-50 transition-opacity" style={{ color: 'var(--accent)' }}>
                   {user?.name?.[0]?.toUpperCase()}
                 </div>
               )}
             </div>
+            {!avatarUploading && (
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full bg-black/40">
+                <span className="text-white text-xs font-semibold">Change</span>
+              </div>
+            )}
             {avatarUploading && (
               <div className="absolute inset-0 flex items-center justify-center rounded-full" style={{ background: 'rgba(0,0,0,0.6)' }}>
                 <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
