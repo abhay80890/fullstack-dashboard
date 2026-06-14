@@ -23,6 +23,7 @@ export default function PostsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+  const [viewing, setViewing] = useState<Post | null>(null);
   const [editing, setEditing] = useState<Post | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -136,7 +137,7 @@ export default function PostsPage() {
               </thead>
               <tbody>
                 {posts.map((p) => (
-                  <tr key={p.id} className="transition-colors hover:bg-white/5" style={{ borderBottom: '1px solid var(--border)' }}>
+                  <tr key={p.id} className="transition-colors hover:bg-white/5 cursor-pointer" style={{ borderBottom: '1px solid var(--border)' }} onClick={() => setViewing(p)}>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0" style={{ background: 'var(--bg-secondary)' }}>
@@ -161,7 +162,7 @@ export default function PostsPage() {
                     </td>
                     <td className="px-4 py-3">
                       {(user?.role === 'ADMIN' || user?.nickname === p.author.nickname || user?.name === p.author.name) && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
                           <button className="btn btn-secondary btn-sm" onClick={() => openEdit(p)}>Edit</button>
                           <button className="btn btn-danger btn-sm" onClick={() => setDeleteId(p.id)}>Delete</button>
                         </div>
@@ -186,6 +187,41 @@ export default function PostsPage() {
           </div>
         )}
       </div>
+
+      {/* View Modal */}
+      <Modal open={!!viewing} onClose={() => setViewing(null)} title={viewing?.title || 'View Post'} size="lg">
+        {viewing && (
+          <div className="space-y-6">
+            {viewing.imageUrl && (
+              <div className="relative w-full h-64 rounded-xl overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
+                <Image src={`${UPLOADS_URL}${viewing.imageUrl}`} alt={viewing.title} fill className="object-cover" />
+              </div>
+            )}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-accent flex items-center justify-center text-white font-bold text-lg">
+                    {viewing.author.nickname?.[0]?.toUpperCase() || viewing.author.name?.[0]?.toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{viewing.author.nickname || viewing.author.name}</p>
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{new Date(viewing.createdAt).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                <span className={`badge ${viewing.published ? 'badge-green' : 'badge-orange'}`}>
+                  {viewing.published ? 'Published' : 'Draft'}
+                </span>
+              </div>
+              <div className="prose prose-invert max-w-none">
+                <p style={{ color: 'var(--text-secondary)', whiteSpace: 'pre-wrap' }}>{viewing.content}</p>
+              </div>
+            </div>
+            <div className="flex justify-end pt-4" style={{ borderTop: '1px solid var(--border)' }}>
+              <button className="btn btn-secondary" onClick={() => setViewing(null)}>Close</button>
+            </div>
+          </div>
+        )}
+      </Modal>
 
       {/* Edit Modal */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Edit Post" size="lg">
