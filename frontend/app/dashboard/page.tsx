@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import StatCard from '@/components/ui/StatCard';
 import Image from 'next/image';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const UPLOADS_URL = process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:5000';
 
@@ -13,7 +14,8 @@ interface Stats {
   publishedPosts: number;
 }
 interface RecentPost { id: string; title: string; published: boolean; imageUrl?: string; createdAt: string; author: { name: string; nickname?: string } }
-interface DashData { stats: Stats; recentPosts: RecentPost[]; }
+interface MonthlyUser { name: string; users: number; }
+interface DashData { stats: Stats; recentPosts: RecentPost[]; monthlyUsers: MonthlyUser[]; }
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashData | null>(null);
@@ -35,7 +37,7 @@ export default function DashboardPage() {
     </div>
   );
 
-  const { stats, recentPosts } = data;
+  const { stats, recentPosts, monthlyUsers } = data;
 
   const statCards = [
     { title: 'Total Users', value: stats.totalUsers, icon: <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>, gradient: 'linear-gradient(135deg,#6c63ff,#a855f7)' },
@@ -43,6 +45,20 @@ export default function DashboardPage() {
     { title: 'Published Posts', value: stats.publishedPosts, icon: <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>, gradient: 'linear-gradient(135deg,#ff8c42,#ff4d6d)' },
     { title: 'Total Products', value: stats.totalProducts, icon: <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>, gradient: 'linear-gradient(135deg,#4da6ff,#6c63ff)' },
   ];
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="glass p-3 rounded-lg shadow-xl" style={{ border: '1px solid var(--border)' }}>
+          <p className="text-sm font-semibold text-white mb-1">{label}</p>
+          <p className="text-sm font-bold" style={{ color: 'var(--accent)' }}>
+            {payload[0].value} New Users
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -53,31 +69,62 @@ export default function DashboardPage() {
 
       {/* Bottom grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
+        
+        {/* User Growth Chart */}
+        <div className="card p-6 flex flex-col hover:shadow-2xl hover:border-indigo-500/30 transition-all duration-300">
+          <h2 className="text-base font-semibold mb-6 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            User Growth (Last 6 Months)
+          </h2>
+          <div className="h-64 w-full flex-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={monthlyUsers} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#6c63ff" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#6c63ff" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.5} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-muted)', fontSize: 12 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-muted)', fontSize: 12 }} />
+                <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'var(--border-bright)', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                <Area type="monotone" dataKey="users" stroke="#6c63ff" strokeWidth={3} fillOpacity={1} fill="url(#colorUsers)" animationDuration={1500} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
 
         {/* Recent Posts */}
-        <div className="card p-6">
-          <h2 className="text-base font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Recent Posts</h2>
-          <div className="space-y-3">
+        <div className="card p-6 flex flex-col hover:shadow-2xl hover:border-purple-500/30 transition-all duration-300">
+          <h2 className="text-base font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+            Recent Posts
+          </h2>
+          <div className="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar">
             {recentPosts.length === 0 && <p className="text-sm" style={{ color: 'var(--text-muted)' }}>No posts yet.</p>}
             {recentPosts.map((p) => (
-              <div key={p.id} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors">
-                <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0" style={{ background: 'var(--bg-secondary)' }}>
+              <div key={p.id} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer group">
+                <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-white/5 group-hover:border-white/10 transition-colors" style={{ background: 'var(--bg-secondary)' }}>
                   {p.imageUrl ? (
-                    <Image src={`${UPLOADS_URL}${p.imageUrl}`} alt={p.title} fill className="object-cover" />
+                    <Image src={`${UPLOADS_URL}${p.imageUrl}`} alt={p.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <svg className="w-4 h-4" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate" style={{ color: 'var(--text-primary)' }}>{p.title}</p>
-                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>by {p.author.nickname || p.author.name}</p>
+                  <p className="text-sm font-semibold truncate group-hover:text-purple-400 transition-colors" style={{ color: 'var(--text-primary)' }}>{p.title}</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>by <span className="font-medium text-gray-300">{p.author.nickname || p.author.name}</span></p>
                 </div>
-                <span className={`badge ${p.published ? 'badge-green' : 'badge-orange'}`}>
+                <span className={`badge ${p.published ? 'badge-green' : 'badge-orange'} shadow-sm`}>
                   {p.published ? 'Live' : 'Draft'}
                 </span>
               </div>
