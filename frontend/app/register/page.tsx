@@ -111,7 +111,7 @@ export default function RegisterPage() {
               <div className="h-48 rounded-xl bg-white/[0.03] border border-white/5 p-4 flex flex-col justify-end">
                 {/* Graph bars mock */}
                 <div className="flex items-end justify-between h-full w-full gap-2 opacity-40">
-                  {[40, 70, 45, 90, 65, 85, 100, 60].map((h, i) => (
+                  {[40, 70, 45, 90, 65, 85, 100].map((h, i) => (
                     <motion.div
                       key={i}
                       initial={{ height: 0 }}
