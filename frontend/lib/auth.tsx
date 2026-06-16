@@ -17,6 +17,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, nickname: string, email: string, password: string) => Promise<void>;
+  oauthLogin: (provider: string, code: string) => Promise<void>;
   logout: () => Promise<void>;
   updateUser: (u: Partial<User>) => void;
 }
@@ -55,6 +56,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(user);
   };
 
+  const oauthLogin = async (provider: string, code: string) => {
+    const { data } = await api.post(`/auth/${provider}/callback`, { code });
+    const { user, accessToken, refreshToken } = data.data;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    setUser(user);
+  };
+
   const logout = async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
@@ -67,7 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateUser = (u: Partial<User>) => setUser((prev) => (prev ? { ...prev, ...u } : prev));
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, loading, login, register, oauthLogin, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
