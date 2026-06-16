@@ -34,9 +34,9 @@ export default function RegisterPage() {
   const strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
 
   return (
-    <div className="min-h-screen w-full flex bg-[#050816] overflow-hidden selection:bg-purple-500/30">
+    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#050816] overflow-y-auto lg:overflow-hidden selection:bg-purple-500/30">
       {/* LEFT PANEL - PRODUCT SHOWCASE */}
-      <div className="hidden lg:flex lg:w-[55%] xl:w-[55%] relative flex-col justify-between p-12 lg:p-16 xl:pl-20 xl:py-24 overflow-hidden border-r border-white/5">
+      <div className="flex w-full lg:w-[55%] xl:w-[55%] relative flex-col justify-between p-8 sm:p-12 lg:p-16 xl:pl-20 xl:py-24 overflow-hidden border-t lg:border-t-0 lg:border-r border-white/5 order-2 lg:order-1">
         {/* Animated Background Effects */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-violet-600/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
@@ -49,7 +49,7 @@ export default function RegisterPage() {
 
         {/* Content */}
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-16">
+          <div className="hidden lg:flex items-center gap-3 mb-16">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
               <Zap className="w-5 h-5 text-white" />
             </div>
@@ -182,7 +182,7 @@ export default function RegisterPage() {
       </div>
 
       {/* RIGHT PANEL - REGISTER */}
-      <div className="w-full lg:w-[45%] xl:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative overflow-y-auto custom-scrollbar pb-12">
+      <div className="w-full lg:w-[45%] xl:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative lg:overflow-y-auto custom-scrollbar pb-12 order-1 lg:order-2">
         <div className="w-full max-w-[480px] bg-white/[0.02] border border-white/5 p-8 sm:p-10 lg:p-12 rounded-3xl relative z-10 shadow-2xl backdrop-blur-sm">
           
           <motion.div

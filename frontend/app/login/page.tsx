@@ -101,10 +101,10 @@ export default function LoginPage() {
         }
       `}} />
 
-      <main className="min-h-screen w-full flex bg-[#050816] text-white font-sans selection:bg-violet-500/30">
+      <main className="min-h-screen w-full flex flex-col lg:flex-row bg-[#050816] text-white font-sans selection:bg-violet-500/30 overflow-y-auto lg:overflow-hidden">
         
         {/* LEFT PANEL - BRAND ZONE */}
-        <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-12 overflow-hidden border-r border-white/5">
+        <div className="flex w-full lg:w-[55%] relative flex-col justify-between p-8 sm:p-12 lg:p-12 overflow-hidden border-t lg:border-t-0 lg:border-r border-white/5 order-2 lg:order-1">
           {/* Animated Blobs */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-violet-600/20 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
@@ -119,7 +119,7 @@ export default function LoginPage() {
           <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay pointer-events-none" />
 
           {/* Top Logo */}
-          <div className="relative z-10 flex items-center gap-3 animate-fade-up" style={{ animationDelay: '0ms' }}>
+          <div className="hidden lg:flex relative z-10 items-center gap-3 animate-fade-up" style={{ animationDelay: '0ms' }}>
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
               <Zap className="w-5 h-5 text-white" aria-hidden="true" />
             </div>
@@ -175,7 +175,7 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT PANEL - LOGIN CARD */}
-        <div className="w-full lg:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative overflow-y-auto pb-12">
+        <div className="w-full lg:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative lg:overflow-y-auto pb-12 order-1 lg:order-2">
           {/* Mobile Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none lg:hidden">
             <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] rounded-full bg-violet-600/20 blur-[80px]" />
