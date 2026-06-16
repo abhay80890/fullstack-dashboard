@@ -146,7 +146,7 @@ export default function LoginPage() {
 
       {/* RIGHT PANEL - LOGIN */}
       <div className="w-full lg:w-[45%] xl:w-[45%] flex items-center justify-center p-6 sm:p-12 lg:p-16 xl:p-24 relative overflow-y-auto custom-scrollbar">
-        <div className="w-full max-w-[460px] relative z-10">
+        <div className="w-full max-w-[480px] bg-white/[0.02] border border-white/5 p-8 sm:p-10 lg:p-12 rounded-3xl relative z-10 shadow-2xl backdrop-blur-sm">
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
