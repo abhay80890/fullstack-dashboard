@@ -36,7 +36,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#050816] overflow-y-auto lg:overflow-hidden selection:bg-purple-500/30">
       {/* LEFT PANEL - PRODUCT SHOWCASE */}
-      <div className="flex w-full lg:w-[55%] xl:w-[55%] relative flex-col justify-between p-8 sm:p-12 lg:p-16 xl:pl-20 xl:py-24 overflow-hidden border-t lg:border-t-0 lg:border-r border-white/5 order-2 lg:order-1">
+      <div className="flex w-full lg:w-[55%] xl:w-[55%] relative flex-col justify-between p-6 sm:p-12 lg:p-16 xl:pl-20 xl:py-24 overflow-hidden border-t lg:border-t-0 lg:border-r border-white/5 order-2 lg:order-1">
         {/* Animated Background Effects */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-violet-600/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
@@ -70,7 +70,7 @@ export default function RegisterPage() {
             </p>
 
             {/* 4 Trust Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3 mb-8">
               {[
                 'Your data stays yours',
                 'Ready in 60 seconds — no credit card',
@@ -79,7 +79,7 @@ export default function RegisterPage() {
               ].map((text, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm text-white/70 bg-white/[0.02] rounded-xl p-4 border border-white/5 shadow-sm">
                   <CheckCircle2 className="w-5 h-5 text-violet-400 flex-shrink-0" />
-                  <span className="leading-tight font-medium">{text}</span>
+                  <span className="leading-tight font-medium text-[13px]">{text}</span>
                 </div>
               ))}
             </div>
@@ -91,7 +91,7 @@ export default function RegisterPage() {
           initial={{ opacity: 0, y: 40, rotateX: 10 }}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{ duration: 1, delay: 0.4, type: "spring" }}
-          className="relative z-10 mt-16 w-[120%] aspect-[16/10] rounded-tl-3xl rounded-tr-sm border border-white/10 bg-white/[0.02] backdrop-blur-3xl shadow-[0_0_50px_rgba(139,92,246,0.1)] overflow-hidden flex flex-col"
+          className="relative z-10 mt-10 lg:mt-16 w-full lg:w-[120%] aspect-[16/10] rounded-tl-xl lg:rounded-tl-3xl rounded-tr-sm lg:rounded-tr-sm border border-white/10 bg-white/[0.02] backdrop-blur-3xl shadow-[0_0_50px_rgba(139,92,246,0.1)] overflow-hidden flex flex-col hidden sm:flex"
           style={{ transformPerspective: 1000 }}
         >
           {/* Inner Glow Border */}
@@ -182,8 +182,8 @@ export default function RegisterPage() {
       </div>
 
       {/* RIGHT PANEL - REGISTER */}
-      <div className="w-full lg:w-[45%] xl:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative lg:overflow-y-auto custom-scrollbar pb-12 order-1 lg:order-2">
-        <div className="w-full max-w-[480px] bg-white/[0.02] border border-white/5 p-8 sm:p-10 lg:p-12 rounded-3xl relative z-10 shadow-2xl backdrop-blur-sm">
+      <div className="w-full lg:w-[45%] xl:w-[45%] flex justify-center items-start pt-8 sm:pt-16 lg:pt-20 px-4 sm:px-12 relative lg:overflow-y-auto custom-scrollbar pb-12 order-1 lg:order-2 bg-[#050816]">
+        <div className="w-full max-w-[480px] bg-[#0A0D1E] sm:bg-white/[0.02] border border-white/10 sm:border-white/5 p-6 sm:p-10 lg:p-12 rounded-3xl relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.5)] sm:shadow-2xl backdrop-blur-sm">
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
