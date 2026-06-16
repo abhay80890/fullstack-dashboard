@@ -104,7 +104,7 @@ export default function LoginPage() {
       <main className="min-h-screen w-full flex flex-col lg:flex-row bg-[#050816] text-white font-sans selection:bg-violet-500/30 overflow-y-auto lg:overflow-hidden">
         
         {/* LEFT PANEL - BRAND ZONE */}
-        <div className="flex w-full lg:w-[55%] relative flex-col justify-between p-6 sm:p-12 lg:p-12 overflow-hidden border-t lg:border-t-0 lg:border-r border-white/5 order-2 lg:order-1">
+        <div className="flex w-full lg:w-[55%] relative flex-col justify-between p-8 sm:p-12 lg:p-12 overflow-hidden border-t lg:border-t-0 lg:border-r border-white/5 order-2 lg:order-1">
           {/* Animated Blobs */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-violet-600/20 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
@@ -139,7 +139,7 @@ export default function LoginPage() {
           {/* Bottom Mockup & Badges */}
           <div className="relative z-10 animate-fade-up" style={{ animationDelay: '450ms' }}>
             {/* Mockup Window */}
-            <div className="hidden sm:block aspect-[16/10] w-full max-w-[600px] rounded-t-xl lg:rounded-t-3xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 overflow-hidden relative shadow-2xl mt-8 lg:mt-0">
+            <div className="aspect-[16/10] w-full max-w-[600px] rounded-t-3xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 overflow-hidden relative shadow-2xl">
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-3 h-3 rounded-full bg-white/10" />
                 <div className="w-3 h-3 rounded-full bg-white/10" />
@@ -175,14 +175,14 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT PANEL - LOGIN CARD */}
-        <div className="w-full lg:w-[45%] flex justify-center items-start pt-8 sm:pt-16 lg:pt-20 px-4 sm:px-12 relative lg:overflow-y-auto pb-12 order-1 lg:order-2 bg-[#050816]">
+        <div className="w-full lg:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative lg:overflow-y-auto pb-12 order-1 lg:order-2">
           {/* Mobile Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none lg:hidden">
             <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] rounded-full bg-violet-600/20 blur-[80px]" />
           </div>
 
           <div 
-            className={`w-full max-w-[480px] bg-[#0A0D1E] sm:bg-[#0D0F1A] border border-white/10 sm:border-white/5 rounded-3xl p-6 sm:p-10 shadow-[0_0_40px_rgba(0,0,0,0.5)] sm:shadow-2xl relative z-10 animate-fade-up ${isShaking ? 'animate-shake' : ''}`} 
+            className={`w-full max-w-[480px] bg-[#0D0F1A] border border-white/5 rounded-3xl p-8 sm:p-10 shadow-2xl relative z-10 animate-fade-up ${isShaking ? 'animate-shake' : ''}`} 
             style={{ animationDelay: '250ms' }}
           >
             {/* Mobile Logo Row */}
