@@ -175,7 +175,7 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT PANEL - LOGIN CARD */}
-        <div className="w-full lg:w-[45%] flex items-center justify-center p-6 sm:p-12 relative overflow-y-auto">
+        <div className="w-full lg:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative overflow-y-auto pb-12">
           {/* Mobile Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none lg:hidden">
             <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] rounded-full bg-violet-600/20 blur-[80px]" />
