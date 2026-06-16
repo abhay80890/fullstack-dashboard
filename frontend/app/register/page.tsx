@@ -4,21 +4,19 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, AtSign, Mail, Lock, Eye, EyeOff, ArrowRight, Zap, Shield, BarChart3, LayoutDashboard, FileText, ShoppingBag } from 'lucide-react';
+import { User, AtSign, Mail, Lock, Eye, EyeOff, ArrowRight, Zap, Shield, BarChart3, LayoutDashboard, FileText, ShoppingBag, CheckCircle2, Star } from 'lucide-react';
 
 export default function RegisterPage() {
   const { register } = useAuth();
   const router = useRouter();
-  const [form, setForm] = useState({ name: '', nickname: '', email: '', password: '', confirm: '' });
+  const [form, setForm] = useState({ name: '', nickname: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (form.password !== form.confirm) { setError('Passwords do not match'); return; }
     if (form.password.length < 6) { setError('Password must be at least 6 characters'); return; }
     setLoading(true);
     try {
@@ -31,9 +29,9 @@ export default function RegisterPage() {
     }
   };
 
-  const strength = form.password.length === 0 ? 0 : form.password.length < 6 ? 1 : form.password.length < 10 ? 2 : 3;
-  const strengthColors = ['', '#ff4d6d', '#ff8c42', '#00d4aa'];
-  const strengthLabels = ['', 'Weak', 'Fair', 'Strong'];
+  const strength = form.password.length === 0 ? 0 : form.password.length < 6 ? 1 : form.password.length < 10 ? 2 : form.password.length < 14 ? 3 : 4;
+  const strengthColors = ['', '#ef4444', '#f97316', '#eab308', '#22c55e'];
+  const strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
 
   return (
     <div className="min-h-screen w-full flex bg-[#050816] overflow-hidden selection:bg-purple-500/30">
@@ -67,9 +65,24 @@ export default function RegisterPage() {
             <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/60 leading-[1.1] mb-6 tracking-tight">
               Start building your<br />next big thing.
             </h1>
-            <p className="text-lg text-white/60 leading-relaxed max-w-md">
-              Join thousands of creators, track your growth, and manage your products effortlessly. Setup takes less than a minute.
+            <p className="text-lg text-white/60 leading-relaxed max-w-md mb-8">
+              Track your growth and manage your products effortlessly. Setup takes less than a minute.
             </p>
+
+            {/* 4 Trust Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {[
+                'Your data stays yours',
+                'Ready in 60 seconds — no credit card',
+                'Real analytics',
+                'No lock-in — export anytime'
+              ].map((text, i) => (
+                <div key={i} className="flex items-center gap-3 text-sm text-white/70 bg-white/[0.02] rounded-xl p-4 border border-white/5 shadow-sm">
+                  <CheckCircle2 className="w-5 h-5 text-violet-400 flex-shrink-0" />
+                  <span className="leading-tight font-medium">{text}</span>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
 
@@ -138,13 +151,31 @@ export default function RegisterPage() {
           </div>
         </motion.div>
 
-        {/* Footer info */}
-        <div className="relative z-10 flex items-center gap-6 text-sm text-white/40 mt-8">
-          <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4" /> Bank-grade Security
+        {/* Beta Tester Testimonial */}
+        <div className="relative z-10 mt-12 bg-white/[0.02] border border-white/5 rounded-2xl p-6 backdrop-blur-md max-w-md">
+          <div className="flex items-center gap-1 mb-4">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-4 h-4 fill-violet-400 text-violet-400" />
+            ))}
           </div>
-          <div className="w-1 h-1 rounded-full bg-white/20" />
-          <div>Always Free Tier</div>
+          <p className="text-white/80 italic mb-5 leading-relaxed text-[15px]">
+            &quot;The dashboard is incredibly fast and intuitive. It&apos;s exactly what I needed to manage my products without all the usual clutter.&quot;
+          </p>
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-purple-500/20 flex-shrink-0">
+              JD
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">Jane Doe</p>
+              <div className="flex items-center gap-2 mt-0.5">
+                <p className="text-xs text-white/50">Product Manager</p>
+                <div className="w-1 h-1 rounded-full bg-white/20" />
+                <span className="text-[10px] uppercase tracking-wider font-bold bg-violet-500/20 text-violet-300 px-2 py-0.5 rounded-full">
+                  Beta Tester
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -185,7 +216,7 @@ export default function RegisterPage() {
 
               <div className="relative flex items-center mb-8">
                 <div className="flex-grow border-t border-white/10"></div>
-                <span className="flex-shrink-0 mx-4 text-white/30 text-xs uppercase tracking-wider">or sign up with email</span>
+                <span className="flex-shrink-0 mx-4 text-white/50 text-sm font-semibold uppercase tracking-wider">or sign up with email</span>
                 <div className="flex-grow border-t border-white/10"></div>
               </div>
 
@@ -273,9 +304,9 @@ export default function RegisterPage() {
                   
                   {/* Password Strength Indicator */}
                   {form.password && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-1">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-2">
                       <div className="flex items-center gap-2 mt-2">
-                        {[1, 2, 3].map(i => (
+                        {[1, 2, 3, 4].map(i => (
                           <div
                             key={i}
                             className="flex-1 h-1.5 rounded-full transition-all duration-300"
@@ -283,35 +314,16 @@ export default function RegisterPage() {
                           />
                         ))}
                       </div>
-                      <p className="text-xs mt-1.5 text-right font-medium" style={{ color: strengthColors[strength] }}>
+                      <p className="text-xs mt-2 text-right font-medium" style={{ color: strengthColors[strength] }}>
                         {strengthLabels[strength]} Password
                       </p>
                     </motion.div>
                   )}
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/70" htmlFor="confirm-password">Confirm Password</label>
-                  <div className="flex items-center h-12 w-full rounded-xl bg-white/5 border border-white/10 overflow-hidden focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500 transition-all group">
-                    <div className="pl-4 pr-3 flex items-center justify-center text-white/40 group-focus-within:text-violet-400 transition-colors">
-                      <Lock className="w-5 h-5" />
-                    </div>
-                    <input
-                      id="confirm-password"
-                      type={showConfirm ? "text" : "password"}
-                      required
-                      placeholder="••••••••"
-                      className="flex-1 h-full bg-transparent text-white placeholder-white/30 focus:outline-none w-full"
-                      value={form.confirm}
-                      onChange={(e) => setForm({ ...form, confirm: e.target.value })}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirm(!showConfirm)}
-                      className="pr-4 pl-2 flex items-center justify-center text-white/40 hover:text-white transition-colors focus:outline-none h-full"
-                    >
-                      {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
+                  
+                  {/* Green Security Note */}
+                  <div className="flex items-start gap-2 mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                    <Shield className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <p className="text-xs font-medium leading-relaxed">Your password is encrypted and never stored in plain text.</p>
                   </div>
                 </div>
 
@@ -340,7 +352,7 @@ export default function RegisterPage() {
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <>
-                      Create Account
+                      Create Account — It&apos;s Free
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
@@ -350,8 +362,14 @@ export default function RegisterPage() {
               <div className="text-center text-sm text-white/50 mt-8">
                 Already have an account?{' '}
                 <Link href="/login" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
-                  Sign in instead
+                  Sign in
                 </Link>
+              </div>
+
+              <div className="text-center text-xs text-white/40 mt-8 space-x-4">
+                <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+                <span>&middot;</span>
+                <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
               </div>
             </div>
           </motion.div>
