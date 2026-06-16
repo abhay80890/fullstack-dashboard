@@ -34,9 +34,9 @@ export default function RegisterPage() {
   const strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
 
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#050816] overflow-y-auto lg:overflow-hidden selection:bg-purple-500/30">
+    <div className="min-h-screen w-full flex bg-[#050816] overflow-hidden selection:bg-purple-500/30">
       {/* LEFT PANEL - PRODUCT SHOWCASE */}
-      <div className="flex w-full lg:w-[55%] xl:w-[55%] relative flex-col justify-between p-8 sm:p-12 lg:p-16 xl:pl-20 xl:py-24 overflow-hidden border-t lg:border-t-0 lg:border-r border-white/5 order-2 lg:order-1">
+      <div className="hidden lg:flex lg:w-[55%] xl:w-[55%] relative flex-col justify-between p-12 lg:p-16 xl:pl-20 xl:py-24 overflow-hidden border-r border-white/5">
         {/* Animated Background Effects */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-violet-600/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
@@ -49,7 +49,7 @@ export default function RegisterPage() {
 
         {/* Content */}
         <div className="relative z-10">
-          <div className="hidden lg:flex items-center gap-3 mb-16">
+          <div className="flex items-center gap-3 mb-16">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
               <Zap className="w-5 h-5 text-white" />
             </div>
@@ -182,8 +182,16 @@ export default function RegisterPage() {
       </div>
 
       {/* RIGHT PANEL - REGISTER */}
-      <div className="w-full lg:w-[45%] xl:w-[45%] flex justify-center items-start pt-12 sm:pt-16 lg:pt-20 px-6 sm:px-12 relative lg:overflow-y-auto custom-scrollbar pb-12 order-1 lg:order-2">
-        <div className="w-full max-w-[480px] bg-white/[0.02] border border-white/5 p-8 sm:p-10 lg:p-12 rounded-3xl relative z-10 shadow-2xl backdrop-blur-sm">
+      <div className="w-full lg:w-[45%] xl:w-[45%] flex items-center justify-center p-6 sm:p-12 lg:p-16 xl:p-24 relative overflow-y-auto custom-scrollbar">
+        {/* Mobile Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none lg:hidden">
+          <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-violet-600/20 blur-[100px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] rounded-full bg-purple-600/15 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '10s' }} />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+        </div>
+
+        <div className="w-full max-w-[480px] bg-[#0A0D1E]/90 sm:bg-white/[0.02] border border-white/10 sm:border-white/5 p-8 sm:p-10 lg:p-12 rounded-3xl relative z-10 shadow-[0_0_50px_rgba(139,92,246,0.1)] sm:shadow-2xl backdrop-blur-xl my-auto">
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
