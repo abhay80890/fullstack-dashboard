@@ -182,8 +182,8 @@ export default function RegisterPage() {
       </div>
 
       {/* RIGHT PANEL - REGISTER */}
-      <div className="w-full lg:w-[45%] xl:w-[45%] flex items-center justify-center p-4 sm:p-8 lg:p-12 relative overflow-y-auto custom-scrollbar">
-        <div className="w-full max-w-[480px] bg-white/[0.02] border border-white/5 p-6 sm:p-8 rounded-3xl relative z-10 shadow-2xl backdrop-blur-sm">
+      <div className="w-full lg:w-[45%] xl:w-[45%] flex items-center justify-center p-6 sm:p-12 lg:p-16 xl:p-24 relative overflow-y-auto custom-scrollbar">
+        <div className="w-full max-w-[480px] bg-white/[0.02] border border-white/5 p-8 sm:p-10 lg:p-12 rounded-3xl relative z-10 shadow-2xl backdrop-blur-sm my-12">
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -191,21 +191,21 @@ export default function RegisterPage() {
             transition={{ duration: 0.5 }}
           >
             {/* Mobile Logo */}
-            <div className="flex lg:hidden items-center gap-3 mb-6 justify-center">
+            <div className="flex lg:hidden items-center gap-3 mb-10 justify-center">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
                 <Zap className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-bold text-white tracking-tight">Nexus</span>
             </div>
 
-            <div className="mb-6 text-center lg:text-left">
-              <h2 className="text-2xl font-semibold text-white mb-1 tracking-tight">Create an account</h2>
-              <p className="text-white/50 text-sm">Enter your details below to get started.</p>
+            <div className="mb-10 text-center lg:text-left">
+              <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">Create an account</h2>
+              <p className="text-white/50 text-base">Enter your details below to get started.</p>
             </div>
 
             <div>
               {/* Social Login */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-8">
                 <button type="button" className="flex items-center justify-center gap-2 h-14 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all font-medium text-sm group">
                   <svg className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                   GitHub
@@ -216,15 +216,15 @@ export default function RegisterPage() {
                 </button>
               </div>
 
-              <div className="relative flex items-center mb-6">
+              <div className="relative flex items-center mb-8">
                 <div className="flex-grow border-t border-white/10"></div>
-                <span className="flex-shrink-0 mx-4 text-white/50 text-xs font-semibold uppercase tracking-wider">or sign up with email</span>
+                <span className="flex-shrink-0 mx-4 text-white/50 text-sm font-semibold uppercase tracking-wider">or sign up with email</span>
                 <div className="flex-grow border-t border-white/10"></div>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="grid grid-cols-2 gap-3">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/70" htmlFor="name">Full Name</label>
                     <div className="flex items-center h-14 w-full rounded-xl bg-white/5 border border-white/10 overflow-hidden focus-within:border-violet-500 focus-within:ring-2 focus-within:ring-violet-500/50 transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] group">
@@ -323,9 +323,9 @@ export default function RegisterPage() {
                   )}
                   
                   {/* Green Security Note */}
-                  <div className="flex items-start gap-2 mt-2 p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                    <Shield className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-                    <p className="text-[11px] font-medium leading-relaxed">Your password is encrypted and never stored in plain text.</p>
+                  <div className="flex items-start gap-2 mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                    <Shield className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <p className="text-xs font-medium leading-relaxed">Your password is encrypted and never stored in plain text.</p>
                   </div>
                 </div>
 
@@ -361,14 +361,14 @@ export default function RegisterPage() {
                 </button>
               </form>
 
-              <div className="text-center text-sm text-white/50 mt-6">
+              <div className="text-center text-sm text-white/50 mt-8">
                 Already have an account?{' '}
                 <Link href="/login" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
                   Sign in
                 </Link>
               </div>
 
-              <div className="text-center text-xs text-white/40 mt-6 space-x-4">
+              <div className="text-center text-xs text-white/40 mt-8 space-x-4">
                 <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
                 <span>&middot;</span>
                 <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
