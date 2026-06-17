@@ -11,6 +11,24 @@ export default function LandingPage() {
       {/* Background ambient light */}
       <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
 
+      {/* Top Navigation */}
+      <nav className="absolute top-0 w-full p-6 flex justify-between items-center z-20 max-w-7xl mx-auto left-0 right-0">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+            <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <span className="text-white font-bold text-xl tracking-tight">Nexus</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+            Login
+          </Link>
+          <Link href="/register" className="text-sm font-medium px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all border border-white/5">
+            Sign Up
+          </Link>
+        </div>
+      </nav>
+
       <main className="relative z-10 flex flex-col items-center w-full max-w-5xl px-6 pt-32 pb-20 mx-auto text-center">
         
         {/* Badge */}
